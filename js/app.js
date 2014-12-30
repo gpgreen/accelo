@@ -38,57 +38,57 @@ window.addEventListener('DOMContentLoaded', function() {
   }
   
   function getMaxY() {
-      var max = 0;
-      for(var i=0; i<data.values.length; i++) {
-          if(data.values[i].Y > max) {
-              max = data.values[i].Y;
-          }
-      }
-
-      max += 10 - max % 10;
-      return max;
+      return 9.8;
   }
 
   function getXPixel(val) {
-      return ((graph.width - xPadding) / data.values.length) * val + (xPadding * 1.5);
+      return val + xPadding;
   }
   
   function getYPixel(val) {
-      return graph.height - (((graph.height - yPadding) / getMaxY()) * val) - yPadding;
+      return graph.height - (((graph.height - yPadding) / getMaxY()/2) * val) - yPadding;
   }
   
   function addDataValues(xval,yval,zval) {
-      data.values.push({ X: xval, Y: yval, Z: zval});
+      // the array has a maximum length
+      if(data.values.length >= graph.width - xPadding) {
+	  data.values.shift();
+      }
+      data.values.push({X: xval, Y: yval, Z: zval});
   }
 
   function handleMotion(event) {
 //    console.log('handleMotion');
-    var a_x = event.accelerationIncludingGravity.x;
-    var a_y = event.accelerationIncludingGravity.y;
-    var a_z = event.accelerationIncludingGravity.z;
-    var t = event.interval;
-    addDataValues(a_x, a_y, a_z);
-//    console.log('a=['+a_x+','+a_y+','+a_z);
-    document.getElementById('a_x').textContent = a_x;
-    document.getElementById('a_y').textContent = a_y;
-    document.getElementById('a_z').textContent = a_z;
-    var c = graph.getContext('2d');
-    c.lineWidth = 2
-    c.strokeStyle = '#333';
-    c.font = 'italic 8pt sans-serif';
-    c.textAlign = "center";
-    c.beginPath();
-    c.moveTo(xPadding, 0);
-    c.lineTo(xPadding, graph.height - yPadding);
-    c.lineTo(graph.width, graph.height - yPadding);
-    c.stroke();
+      var a_x = event.accelerationIncludingGravity.x;
+      var a_y = event.accelerationIncludingGravity.y;
+      var a_z = event.accelerationIncludingGravity.z;
+      var t = event.interval;
+      addDataValues(a_x, a_y, a_z);
+      //    console.log('a=['+a_x+','+a_y+','+a_z);
+      document.getElementById('a_x').textContent = a_x;
+      document.getElementById('a_y').textContent = a_y;
+      document.getElementById('a_z').textContent = a_z;
+      var c = graph.getContext('2d');
+      // clear the rectangle
+      c.clearRect(0,0,graph.width,graph.height);
+      c.lineWidth = 2;
+      c.strokeStyle = '#333';
+      c.font = 'italic 8pt sans-serif';
+      c.textAlign = "center";
+      c.beginPath();
+      c.moveTo(xPadding, 0);
+      c.lineTo(xPadding, graph.height - yPadding);
+      c.lineTo(graph.width, graph.height - yPadding);
+      c.stroke();
       // draw a line
       c.strokeStyle = '#f00';
+      c.lineWidth = 1;
       c.beginPath();
       for(var i=0; i<data.values.length; i++) {
+	  var ix = getXPixel(i);
           var x = getYPixel(data.values[i].X);
-	  console.log('i='+i+'X='+x);
-	  c.lineTo(getXPixel(i), x);
+	  console.log('i='+i+' ix='+ix+' X='+x);
+	  c.lineTo(ix, x);
       }
       c.stroke();
   }
