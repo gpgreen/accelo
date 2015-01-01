@@ -18,6 +18,9 @@ window.addEventListener('DOMContentLoaded', function() {
   var yPixelScale;
   var yAxis;
   var data = { 
+      xOn:true,
+      yOn:true,
+      zOn:true,
       maxLen:0,
       len:0,
       offset:0,
@@ -43,6 +46,57 @@ window.addEventListener('DOMContentLoaded', function() {
   }
   
   function init() {
+      var elements;
+      console.log("init start");
+
+      elements = {
+	  xswitch: document.getElementById('x-switch'),
+	  yswitch: document.getElementById('y-switch'),
+	  zswitch: document.getElementById('z-switch')
+      };
+
+      elements.xswitch.addEventListener('click', function() {
+	  var val;
+	  if(elements.xswitch.hasAttribute('checked')) {
+	      val = false;
+	      elements.xswitch.removeAttribute('checked');
+	  }
+	  else {
+	      val = true;
+	      elements.xswitch.setAttribute('checked', val);
+	  }
+	  data.xOn = val;
+	  console.log("xswitch:"+val);
+      }, true);
+					
+      elements.yswitch.addEventListener('click', function() {
+	  var val;
+	  if(elements.yswitch.hasAttribute('checked')) {
+	      val = false;
+	      elements.yswitch.removeAttribute('checked');
+	  }
+	  else {
+	      val = true;
+	      elements.yswitch.setAttribute('checked', val);
+	  }
+	  data.yOn = val;
+	  console.log("yswitch:"+val);
+      }, true);
+					
+      elements.zswitch.addEventListener('click', function() {
+	  var val;
+	  if(elements.zswitch.hasAttribute('checked')) {
+	      val = false;
+	      elements.zswitch.removeAttribute('checked');
+	  }
+	  else {
+	      val = true;
+	      elements.zswitch.setAttribute('checked', val);
+	  }
+	  data.zOn = val;
+	  console.log("zswitch:"+val);
+      }, true);
+					
       // calculate graph scaling vars
       graph = document.getElementById('graph');
 
@@ -128,9 +182,24 @@ window.addEventListener('DOMContentLoaded', function() {
       //var t = event.interval;
       addDataValues(a_x, a_y, a_z);
       //console.log('a=['+a_x+','+a_y+','+a_z);
-      document.getElementById('a_x').textContent = a_x;
-      document.getElementById('a_y').textContent = a_y;
-      document.getElementById('a_z').textContent = a_z;
+      if(data.xOn) {
+	  document.getElementById('a_x').textContent = a_x;
+      }
+      else {
+	  document.getElementById('a_x').textContent = "";
+      }
+      if(data.yOn) {
+	  document.getElementById('a_y').textContent = a_y;
+      }
+      else {
+	  document.getElementById('a_y').textContent = "";
+      }
+      if(data.zOn) {
+	  document.getElementById('a_z').textContent = a_z;
+      }
+      else {
+	  document.getElementById('a_z').textContent = "";
+      }
   }
 
   function draw() {
@@ -151,32 +220,38 @@ window.addEventListener('DOMContentLoaded', function() {
       ctx.stroke();
 
       // draw x graph
-      ctx.strokeStyle = '#ff0000';
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      for(var i=0; i<data.len; i++) {
-	  //console.log('i='+i+' X='+getPixel(i, 0));
-	  ctx.lineTo(calcXPixel(i), getPixel(i, 0));
+      if(data.xOn) {
+	  ctx.strokeStyle = '#ff0000';
+	  ctx.lineWidth = 1;
+	  ctx.beginPath();
+	  for(var i=0; i<data.len; i++) {
+	      //console.log('i='+i+' X='+getPixel(i, 0));
+	      ctx.lineTo(calcXPixel(i), getPixel(i, 0));
+	  }
+	  ctx.stroke();
       }
-      ctx.stroke();
 
       // draw y graph
-      ctx.strokeStyle = '#00ffff';
-      ctx.beginPath();
-      for(var i=0; i<data.len; i++) {
-	  //console.log('i='+i+' Y='+getPixel(i, 1));
-	  ctx.lineTo(calcXPixel(i), getPixel(i, 1));
+      if(data.yOn) {
+	  ctx.strokeStyle = '#00ffff';
+	  ctx.beginPath();
+	  for(var i=0; i<data.len; i++) {
+	      //console.log('i='+i+' Y='+getPixel(i, 1));
+	      ctx.lineTo(calcXPixel(i), getPixel(i, 1));
+	  }
+	  ctx.stroke();
       }
-      ctx.stroke();
 
       // draw z graph
-      ctx.strokeStyle = '#00ff00';
-      ctx.beginPath();
-      for(var i=0; i<data.len; i++) {
-	  //console.log('i='+i+' Z='+getPixel(i, 2));
-	  ctx.lineTo(calcXPixel(i), getPixel(i, 2));
+      if(data.zOn) {
+	  ctx.strokeStyle = '#00ff00';
+	  ctx.beginPath();
+	  for(var i=0; i<data.len; i++) {
+	      //console.log('i='+i+' Z='+getPixel(i, 2));
+	      ctx.lineTo(calcXPixel(i), getPixel(i, 2));
+	  }
+	  ctx.stroke();
       }
-      ctx.stroke();
   }
 
 });
