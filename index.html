@@ -2,16 +2,8 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Privileged app</title>
-        <meta name="description" content="A privileged app stub">
-
-	<!-- Common style -->
-	<link rel="stylesheet" type="text/css" href="shared/style/headers.css">
-	<link rel="stylesheet" type="text/css" href="shared/style/lists.css">
-	<link rel="stylesheet" type="text/css" href="shared/style/input_areas.css">
-	<link rel="stylesheet" type="text/css" href="shared/style/switches.css">
-        <link rel="stylesheet" href="css/app.css">
-
+        <title>Accelo</title>
+        <meta name="description" content="Firefox OS accelerometer output graph">
         <!--
           viewport allows you to control how mobile browsers will render your content.
           width=device-width tells mobile browsers to render your content across the
@@ -22,44 +14,46 @@
         -->
         <meta name="viewport" content="width=device-width">
 
-        <script type="text/javascript" src="js/app.js" defer></script>
+	<!-- Common style -->
+	<link rel="stylesheet" type="text/css" href="shared/style/headers.css">
+	<link rel="stylesheet" type="text/css" href="shared/style/lists.css">
+	<link rel="stylesheet" type="text/css" href="shared/style/input_areas.css">
+	<link rel="stylesheet" type="text/css" href="shared/style/switches.css">
+        <link rel="stylesheet" href="css/accelo.css">
+        <script type="text/javascript" src="js/accelo.js" defer></script>
 
-        <!--
-        The following two lines are for loading the localisations library
-        and the localisation data-so people can use the app in their
-        own language (as long as you provide translations).
-        -->
+        <!-- Localization -->
         <link rel="prefetch" type="application/l10n" href="data/locales.ini" />
         <script type="text/javascript" src="js/libs/l10n.js" defer></script>
+
     </head>
     <body>
         <section>
             <h1 data-l10n-id="app_title">Accelo</h1>
             <p data-l10n-id="app_description">Explore the accelerometer</p>
-            <p id="message"></p>
             <canvas id="graph" width="280" height="200">
             </canvas>
 	    <ul>
 		<li>
-	       	<label class="pack-switch">
-	          <input type="checkbox" id="x-switch" checked>
-		  <span data-l10n-id="x-switch">X</span>
-	        </label>
-		<span id="a_x"></span>
+		    <label class="pack-switch">
+	            <input type="checkbox" id="x-switch" checked>
+		    <span data-l10n-id="x-switch">X</span>
+	            </label>
+		    <span id="a_x"></span>
 	    	</li>
 		<li>
-		  <label class="pack-switch">
+		    <label class="pack-switch">
 		    <input type="checkbox" id="y-switch" checked>
 		    <span data-l10n-id="y-switch">Y</span>
-		  </label>
-		  <span id="a_y"></span>	
+		    </label>
+		    <span id="a_y"></span>	
 		</li>
 		<li>
-		  <label class="pack-switch">
+		    <label class="pack-switch">
 		    <input type="checkbox" id="z-switch" checked>
 		    <span data-l10n-id="z-switch">Z</span>
-		  </label>
-		  <span id="a_z"></span>
+		    </label>
+		    <span id="a_z"></span>
 		</li>
 	    </ul>
         </section>

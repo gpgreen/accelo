@@ -1,6 +1,6 @@
 {
   "version": "0.1.0",
-  "name": "accelo",
+  "name": "Accelo",
   "description": "Explore the accelerometer",
   "launch_path": "/index.html",
   "icons": {
